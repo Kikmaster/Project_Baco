@@ -131,6 +131,20 @@
 
     async function fetchSeries(symbol, key) {
       // Try Alpha Vantage for stocks; for crypto, use Binance public API as fallback
+      // Prefer server proxy if available
+      try {
+        const proxyRes = await fetch(`/api/alpha?symbol=${encodeURIComponent(symbol)}`);
+        if(proxyRes.ok) {
+          const data = await proxyRes.json();
+          if(data['Time Series (Daily)']) {
+            const series = Object.entries(data['Time Series (Daily)']).map(([date,vals])=>({date,close:parseFloat(vals['4. close'])})).sort((a,b)=>new Date(a.date)-new Date(b.date));
+            return series;
+          }
+        }
+      } catch(e) {
+        // proxy not available, continue to fallback options
+      }
+
       if(key) {
         // Map TradingView symbols to AlphaVantage symbols conservatively (user may provide full symbol like NASDAQ:AAPL)
         const avSymbol = symbol.includes(':') ? symbol.split(':')[1] : symbol;
@@ -173,8 +187,21 @@
       newsEl.innerHTML = '<p>Loading news...</p>';
       try {
         const q = symbol.includes(':') ? symbol.split(':')[1] : symbol;
+        // Try server proxy first
+        try {
+          const r = await fetch(`/api/news?q=${encodeURIComponent(q)}`);
+          if(r.ok) {
+            const data = await r.json();
+            if(data && data.results && data.results.length) {
+              newsEl.innerHTML = data.results.slice(0,8).map(n=>`<div style=\"margin-bottom:8px;\"><a href=\"${n.link}\" target=\"_blank\">${n.title}</a><div style=\"font-size:12px;color:#666\">${n.pubDate || ''}</div></div>`).join('');
+              return;
+            }
+          }
+        } catch(e) {
+          // proxy failed; fallback to public demo endpoint
+        }
+
         const url = `https://newsdata.io/api/1/news?apikey=pub_61f0b0b7f19c8d3b1a90b5adf6c1d7&language=en&q=${encodeURIComponent(q)}`;
-        // NOTE: The above demo key may not work; this is a placeholder. If it fails, fallback to static message.
         const res = await fetch(url);
         const data = await res.json();
         if(data && data.results && data.results.length) {

@@ -17,6 +17,24 @@ python3 -m http.server 8000
 
 2. Open http://localhost:8000/super.html in your browser.
 
+Or use the included Node proxy (recommended for API access and to avoid CORS):
+
+1. Copy `.env.example` to `.env` and fill your API keys:
+
+```bash
+cp .env.example .env
+# edit .env and add your keys
+```
+
+2. Install dependencies and start the server:
+
+```bash
+npm install
+npm start
+```
+
+3. Open http://localhost:3000/super.html (or the PORT you set) in your browser.
+
 Notes and configuration
 
 - TradingView widgets are embedded and work best when served over HTTP/HTTPS. They may not render when opening the file via `file://`.
