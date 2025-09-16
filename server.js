@@ -42,6 +42,32 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
+// Finnhub news proxy with simple in-memory cache
+const finnhubCache = new Map(); // key -> { ts, data }
+const FINNHUB_TTL = 60 * 1000; // 60 seconds
+app.get('/api/finnhub-news', async (req, res) => {
+  const q = req.query.q || '';
+  const key = process.env.FINNHUB_KEY;
+  if(!key) return res.status(500).json({ error: 'Server missing FINNHUB_KEY' });
+  const cacheKey = q.toLowerCase();
+  const now = Date.now();
+  if(finnhubCache.has(cacheKey)) {
+    const entry = finnhubCache.get(cacheKey);
+    if(now - entry.ts < FINNHUB_TTL) return res.json(entry.data);
+  }
+  try {
+    // Finnhub Company News endpoint expects symbol (US tickers). Use general news as fallback via /news/search
+    // We'll call the news search endpoint
+    const url = `https://finnhub.io/api/v1/news?category=general&token=${key}`;
+    const r = await axios.get(url);
+    const data = r.data;
+    finnhubCache.set(cacheKey, { ts: now, data });
+    res.json(data);
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, ()=>{
   console.log(`Server running on http://localhost:${PORT}`);
 });
