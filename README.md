@@ -4,7 +4,7 @@ This repository contains a small static site to explore real-time stock and cryp
 
 Pages:
 - `index.html` — home
-- `charts.html` — basic real-time charts
+- `agenda.html` — agenda / todo manager
 - `super.html` — Super Analysis Space (chart picker, recommendations, news, quick predictions)
 
 How to run locally
