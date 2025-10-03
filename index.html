@@ -1,23 +1,432 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Baco Charts</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; }
-        button { font-size: 1.2em; padding: 15px 30px; background: #0070f3; color: white; border: none; border-radius: 8px; cursor: pointer; }
-        button:hover { background: #005bb5; }
-    </style>
+    <title>StoryFlow - Criação de User Stories Inteligente</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Welcome to Baco Charts</h1>
-        <p>Check real-time stock and crypto charts.</p>
-        <div style="display:flex;gap:12px;justify-content:center;">
-            <a href="agenda.html"><button>Open Agenda</button></a>
-            <a href="super.html"><button>Open Super Analysis Space</button></a>
-            <a href="https://www.examtopics.com/questions/sentry/" target="_blank"><button style="background:#111;color:#fff">Sentry Questions</button></a>
-            <a href="sentry-pool.html"><button style="background:#ff7a00;color:#fff">Sentry Pool</button></a>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="app-title">
+                        <i class="fas fa-layer-group"></i>
+                        StoryFlow
+                    </h1>
+                    <span class="app-subtitle">Superior ao Jira</span>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn--secondary theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="btn btn--primary" id="createStoryBtn">
+                        <i class="fas fa-plus"></i>
+                        Nova Story
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <h3 class="nav-title">Dashboard</h3>
+                        <ul class="nav-list">
+                            <li><a href="#" class="nav-link active" data-view="dashboard">
+                                <i class="fas fa-chart-line"></i>
+                                Visão Geral
+                            </a></li>
+                            <li><a href="#" class="nav-link" data-view="analytics">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a></li>
+                            <li><a href="#" class="nav-link" data-view="story-map">
+                                <i class="fas fa-sitemap"></i>
+                                Story Map
+                            </a></li>
+                            <li><a href="#" class="nav-link" data-view="kanban">
+                                <i class="fas fa-columns"></i>
+                                Kanban
+                            </a></li>
+                        </ul>
+                    </div>
+
+                    <div class="nav-section">
+                        <h3 class="nav-title">Projetos</h3>
+                        <ul class="nav-list" id="projectsList">
+                            <!-- Projetos serão carregados dinamicamente -->
+                        </ul>
+                        <button class="btn btn--ghost btn--small" id="addProjectBtn">
+                            <i class="fas fa-plus"></i>
+                            Novo Projeto
+                        </button>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard View -->
+                <div class="view active" id="dashboardView">
+                    <div class="view-header">
+                        <h2>Dashboard</h2>
+                        <p>Visão geral dos seus projetos e user stories</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalStories">0</h3>
+                                <p>Total de Stories</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="completedStories">0</h3>
+                                <p>Stories Concluídas</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="inProgressStories">0</h3>
+                                <p>Em Andamento</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="averageQuality">0</h3>
+                                <p>Qualidade Média</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-sections">
+                        <section class="recent-stories">
+                            <h3>Stories Recentes</h3>
+                            <div class="stories-list" id="recentStoriesList">
+                                <!-- Stories serão carregadas dinamicamente -->
+                            </div>
+                        </section>
+
+                        <section class="quick-actions">
+                            <h3>Ações Rápidas</h3>
+                            <div class="actions-grid">
+                                <button class="action-card" id="quickCreateStory">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Nova User Story</span>
+                                </button>
+                                <button class="action-card" id="importStories">
+                                    <i class="fas fa-upload"></i>
+                                    <span>Importar Stories</span>
+                                </button>
+                                <button class="action-card" id="exportStories">
+                                    <i class="fas fa-download"></i>
+                                    <span>Exportar Projeto</span>
+                                </button>
+                                <button class="action-card" id="aiSuggestions">
+                                    <i class="fas fa-robot"></i>
+                                    <span>Sugestões AI</span>
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Story Map View -->
+                <div class="view" id="storyMapView">
+                    <div class="view-header">
+                        <h2>Story Map</h2>
+                        <p>Visualização hierárquica das suas user stories</p>
+                    </div>
+                    <div class="story-map-container">
+                        <div class="story-map" id="storyMapGrid">
+                            <!-- Story map será construído dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kanban View -->
+                <div class="view" id="kanbanView">
+                    <div class="view-header">
+                        <h2>Kanban Board</h2>
+                        <p>Gerencie o fluxo das suas user stories</p>
+                    </div>
+                    <div class="kanban-board">
+                        <div class="kanban-column" data-status="Backlog">
+                            <h3>Backlog</h3>
+                            <div class="kanban-stories" id="backlogColumn"></div>
+                        </div>
+                        <div class="kanban-column" data-status="In Progress">
+                            <h3>Em Andamento</h3>
+                            <div class="kanban-stories" id="inProgressColumn"></div>
+                        </div>
+                        <div class="kanban-column" data-status="Review">
+                            <h3>Revisão</h3>
+                            <div class="kanban-stories" id="reviewColumn"></div>
+                        </div>
+                        <div class="kanban-column" data-status="Done">
+                            <h3>Concluído</h3>
+                            <div class="kanban-stories" id="doneColumn"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics View -->
+                <div class="view" id="analyticsView">
+                    <div class="view-header">
+                        <h2>Analytics</h2>
+                        <p>Métricas e insights dos seus projetos</p>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="chart-container">
+                            <h3>Velocity Chart</h3>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Gráfico de velocidade será exibido aqui</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Burndown Chart</h3>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-area"></i>
+                                <p>Gráfico burndown será exibido aqui</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
+
+        <!-- AI Assistant Panel -->
+        <div class="ai-assistant" id="aiAssistant">
+            <div class="ai-header">
+                <h3><i class="fas fa-robot"></i> AI Assistant</h3>
+                <button class="btn btn--ghost btn--small" id="closeAi">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="ai-content">
+                <div class="ai-suggestions" id="aiSuggestionsList">
+                    <div class="ai-suggestion">
+                        <h4>Melhore sua User Story</h4>
+                        <p>Esta story pode ser mais específica. Considere adicionar critérios de aceitação mais detalhados.</p>
+                        <button class="btn btn--small btn--primary">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para Criação/Edição de Stories -->
+        <div class="modal" id="storyModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Nova User Story</h2>
+                    <button class="btn btn--ghost" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="storyForm">
+                        <div class="form-group">
+                            <label for="storyProject">Projeto</label>
+                            <select id="storyProject" required>
+                                <option value="">Selecione um projeto</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storyTitle">Título da Story</label>
+                            <input type="text" id="storyTitle" placeholder="Ex: Login com redes sociais" required>
+                        </div>
+
+                        <div class="story-template">
+                            <h3>Como <span class="highlight">persona</span>, eu quero <span class="highlight">ação</span> para que <span class="highlight">benefício</span></h3>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="storyPersona">Persona</label>
+                                <select id="storyPersona" required>
+                                    <option value="">Selecione uma persona</option>
+                                    <option value="Cliente">Cliente</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Gerente">Gerente</option>
+                                    <option value="Desenvolvedor">Desenvolvedor</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="storyPoints">Story Points</label>
+                                <select id="storyPoints">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                    <option value="8">8</option>
+                                    <option value="13">13</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storyAction">Eu quero (ação)</label>
+                            <input type="text" id="storyAction" placeholder="Ex: fazer login usando minhas credenciais das redes sociais" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storyBenefit">Para que (benefício)</label>
+                            <input type="text" id="storyBenefit" placeholder="Ex: não precise lembrar de mais uma senha" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="acceptanceCriteria">Critérios de Aceitação</label>
+                            <div class="criteria-container">
+                                <div class="criteria-item">
+                                    <input type="text" class="criteria-input" placeholder="Critério de aceitação 1">
+                                    <button type="button" class="btn btn--ghost btn--small remove-criteria">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn--ghost btn--small" id="addCriteria">
+                                <i class="fas fa-plus"></i>
+                                Adicionar Critério
+                            </button>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="storyPriority">Prioridade</label>
+                                <select id="storyPriority">
+                                    <option value="Low">Baixa</option>
+                                    <option value="Medium">Média</option>
+                                    <option value="High">Alta</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="storyStatus">Status</label>
+                                <select id="storyStatus">
+                                    <option value="Backlog">Backlog</option>
+                                    <option value="In Progress">Em Andamento</option>
+                                    <option value="Review">Revisão</option>
+                                    <option value="Done">Concluído</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storyTags">Tags (separadas por vírgula)</label>
+                            <input type="text" id="storyTags" placeholder="Ex: authentication, social-login">
+                        </div>
+
+                        <div class="invest-validation" id="investValidation">
+                            <h4>Validação INVEST</h4>
+                            <div class="validation-items">
+                                <!-- Validação será preenchida pelo JavaScript -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary" id="cancelStory">Cancelar</button>
+                    <button type="submit" class="btn btn--primary" id="saveStory" form="storyForm">Salvar Story</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Export -->
+        <div class="modal" id="exportModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Exportar Stories</h2>
+                    <button class="btn btn--ghost" id="closeExportModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="export-options">
+                        <h3>Selecione o formato:</h3>
+                        <div class="export-formats">
+                            <label class="export-option">
+                                <input type="radio" name="exportFormat" value="json" checked>
+                                <span class="option-content">
+                                    <i class="fas fa-code"></i>
+                                    <strong>JSON</strong>
+                                    <small>Formato estruturado para desenvolvimento</small>
+                                </span>
+                            </label>
+
+                            <label class="export-option">
+                                <input type="radio" name="exportFormat" value="csv">
+                                <span class="option-content">
+                                    <i class="fas fa-table"></i>
+                                    <strong>CSV</strong>
+                                    <small>Para planilhas e ferramentas</small>
+                                </span>
+                            </label>
+
+                            <label class="export-option">
+                                <input type="radio" name="exportFormat" value="jira">
+                                <span class="option-content">
+                                    <i class="fas fa-upload"></i>
+                                    <strong>Jira CSV</strong>
+                                    <small>Formato compatível com Jira</small>
+                                </span>
+                            </label>
+
+                            <label class="export-option">
+                                <input type="radio" name="exportFormat" value="markdown">
+                                <span class="option-content">
+                                    <i class="fas fa-file-alt"></i>
+                                    <strong>Markdown</strong>
+                                    <small>Para documentação</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary" id="cancelExport">Cancelar</button>
+                    <button type="button" class="btn btn--primary" id="confirmExport">
+                        <i class="fas fa-download"></i>
+                        Exportar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Carregando...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
