@@ -26,8 +26,8 @@ Uma aplicação web moderna e intuitiva para criação e gestão de User Stories
 1. **Criar Repositório:**
    ```bash
    # Faça fork deste repositório ou crie um novo
-   git clone https://github.com/SEU_USUARIO/storyflow-app.git
-   cd storyflow-app
+   git clone https://github.com/Kikmaster/Project_Baco.git
+   cd Project_Baco
    ```
 
 2. **Ativar GitHub Pages:**
@@ -38,7 +38,7 @@ Uma aplicação web moderna e intuitiva para criação e gestão de User Stories
    - Salvar
 
 3. **Acessar:**
-   - Sua aplicação estará em: `https://SEU_USUARIO.github.io/storyflow-app/`
+   - Sua aplicação está disponível em: `https://kikmaster.github.io/Project_Baco/`
 
 ### Opção 2: Servidor Local
 
@@ -191,8 +191,8 @@ MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 🙋‍♂️ Suporte
 
-- **Issues**: [GitHub Issues](https://github.com/SEU_USUARIO/storyflow-app/issues)
-- **Discussões**: [GitHub Discussions](https://github.com/SEU_USUARIO/storyflow-app/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Kikmaster/Project_Baco/issues)
+- **Discussões**: [GitHub Discussions](https://github.com/Kikmaster/Project_Baco/discussions)
 - **Email**: seuemail@exemplo.com
 
 ## 🎉 Créditos
@@ -207,4 +207,4 @@ Desenvolvido como alternativa superior ao Jira, focando em:
 
 **⭐ Se este projeto foi útil, deixe uma estrela no GitHub!**
 
-**🔗 Demo:** [https://seu-usuario.github.io/storyflow-app](https://seu-usuario.github.io/storyflow-app)
+**🔗 Demo:** [https://kikmaster.github.io/Project_Baco](https://kikmaster.github.io/Project_Baco)
