@@ -27,6 +27,10 @@
                     <button class="btn btn--secondary theme-toggle" id="themeToggle">
                         <i class="fas fa-moon"></i>
                     </button>
+                    <button class="btn btn--success" id="createEpicBtn">
+                        <i class="fas fa-layer-group"></i>
+                        Novo Épico
+                    </button>
                     <button class="btn btn--primary" id="createStoryBtn">
                         <i class="fas fa-plus"></i>
                         Nova Story
@@ -117,16 +121,29 @@
 
                         <div class="stat-card">
                             <div class="stat-icon">
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-layer-group"></i>
                             </div>
                             <div class="stat-content">
-                                <h3 id="averageQuality">0</h3>
-                                <p>Qualidade Média</p>
+                                <h3 id="totalEpics">0</h3>
+                                <p>Total de Épicos</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="dashboard-sections">
+                        <section class="epics-overview">
+                            <div class="section-header">
+                                <h3>Épicos em Andamento</h3>
+                                <button class="btn btn--ghost btn--small" id="viewAllEpics">
+                                    <i class="fas fa-eye"></i>
+                                    Ver Todos
+                                </button>
+                            </div>
+                            <div class="epics-grid" id="epicsGrid">
+                                <!-- Épicos serão carregados dinamicamente -->
+                            </div>
+                        </section>
+
                         <section class="recent-stories">
                             <h3>Stories Recentes</h3>
                             <div class="stories-list" id="recentStoriesList">
@@ -137,6 +154,10 @@
                         <section class="quick-actions">
                             <h3>Ações Rápidas</h3>
                             <div class="actions-grid">
+                                <button class="action-card" id="quickCreateEpic">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span>Novo Épico</span>
+                                </button>
                                 <button class="action-card" id="quickCreateStory">
                                     <i class="fas fa-plus"></i>
                                     <span>Nova User Story</span>
@@ -357,6 +378,107 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn--secondary" id="cancelStory">Cancelar</button>
                     <button type="submit" class="btn btn--primary" id="saveStory" form="storyForm">Salvar Story</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para Criação/Edição de Épicos -->
+        <div class="modal" id="epicModal">
+            <div class="modal-content modal-content--large">
+                <div class="modal-header">
+                    <h2 id="epicModalTitle">Novo Épico</h2>
+                    <button class="btn btn--ghost" id="closeEpicModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="epicForm">
+                        <div class="form-group">
+                            <label for="epicProject">Projeto</label>
+                            <select id="epicProject" required>
+                                <option value="">Selecione um projeto</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="epicTitle">Título do Épico</label>
+                            <input type="text" id="epicTitle" placeholder="Ex: Sistema de Autenticação Completo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="epicDescription">Descrição</label>
+                            <textarea id="epicDescription" placeholder="Descreva o épico e seu contexto de negócio..." rows="4" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="epicObjectives">Objetivos do Épico</label>
+                            <div class="objectives-container">
+                                <div class="objective-item">
+                                    <input type="text" class="objective-input" placeholder="Objetivo 1">
+                                    <button type="button" class="btn btn--ghost btn--small remove-objective">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn--ghost btn--small" id="addObjective">
+                                <i class="fas fa-plus"></i>
+                                Adicionar Objetivo
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="epicBusinessValue">Valor de Negócio</label>
+                            <input type="text" id="epicBusinessValue" placeholder="Ex: Aumentar conversão em 25%" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="epicPriority">Prioridade</label>
+                                <select id="epicPriority">
+                                    <option value="Low">Baixa</option>
+                                    <option value="Medium">Média</option>
+                                    <option value="High">Alta</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="epicStatus">Status</label>
+                                <select id="epicStatus">
+                                    <option value="Planning">Planejamento</option>
+                                    <option value="Backlog">Backlog</option>
+                                    <option value="In Progress">Em Andamento</option>
+                                    <option value="Done">Concluído</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="epicColor">Cor</label>
+                                <input type="color" id="epicColor" value="#3B82F6">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="epicDueDate">Data de Entrega (opcional)</label>
+                            <input type="date" id="epicDueDate">
+                        </div>
+
+                        <div class="ai-section">
+                            <div class="ai-header">
+                                <h3><i class="fas fa-robot"></i> IA para Geração de User Stories</h3>
+                                <button type="button" class="btn btn--primary" id="generateStoriesBtn">
+                                    <i class="fas fa-magic"></i>
+                                    Gerar Stories com IA
+                                </button>
+                            </div>
+                            <div class="ai-description">
+                                <p>Nossa IA irá analisar a descrição e objetivos do épico para gerar automaticamente user stories relevantes e bem estruturadas.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary" id="cancelEpic">Cancelar</button>
+                    <button type="submit" class="btn btn--primary" id="saveEpic" form="epicForm">Salvar Épico</button>
                 </div>
             </div>
         </div>
