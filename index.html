@@ -3,556 +3,659 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="StoryFlow - Ferramenta superior ao Jira para criação e gestão de User Stories">
-    <meta name="keywords" content="user stories, agile, scrum, jira alternative, project management">
-    <meta name="author" content="StoryFlow">
-    <title>StoryFlow - Criação de User Stories Inteligente</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Project X - Plataforma avançada de gestão de projetos com épicos e user stories">
+    <meta name="keywords" content="project management, user stories, epics, agile, scrum">
+    <meta name="author" content="Project X">
+    <title>Project X - Gestão Inteligente de Projetos</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset e Variáveis */
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary-color: #10B981;
+            --accent-color: #F59E0B;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-light: #9CA3AF;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --bg-accent: #EBF5FF;
+            --border-color: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* CTA Buttons */
+        .cta-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--bg-secondary);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem;
+            }
+
+            .cta-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            animation-delay: 0.2s;
+        }
+
+        .hero-description {
+            animation-delay: 0.4s;
+        }
+
+        .cta-container {
+            animation-delay: 0.6s;
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="header-left">
-                    <h1 class="app-title">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                Project X
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Funcionalidades</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="storyflow.html">StoryFlow</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-elements">
+            <div class="floating-element" style="top: 20%; left: 10%; font-size: 2rem;">🎯</div>
+            <div class="floating-element" style="top: 60%; left: 80%; font-size: 1.5rem; animation-delay: -2s;">📊</div>
+            <div class="floating-element" style="top: 40%; left: 5%; font-size: 1.8rem; animation-delay: -4s;">🚀</div>
+            <div class="floating-element" style="top: 70%; left: 15%; font-size: 1.3rem; animation-delay: -1s;">✨</div>
+            <div class="floating-element" style="top: 30%; left: 85%; font-size: 1.6rem; animation-delay: -3s;">🎨</div>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Project X</h1>
+                <p class="hero-subtitle">Gestão Inteligente de Projetos</p>
+                <p class="hero-description">
+                    Revolucione a forma como você gerencia projetos com nossa plataforma avançada. 
+                    Épicos inteligentes, User Stories geradas por IA e visualizações hierárquicas 
+                    que superam qualquer ferramenta do mercado.
+                </p>
+                
+                <div class="cta-container">
+                    <a href="storyflow.html" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Acessar StoryFlow
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i>
+                        Saiba Mais
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Funcionalidades Poderosas</h2>
+            <p class="section-subtitle">
+                Descubra como o Project X revoluciona a gestão de projetos com tecnologia de ponta
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">IA para User Stories</h3>
+                    <p class="feature-description">
+                        Inteligência artificial avançada que gera automaticamente user stories completas 
+                        baseadas na descrição dos seus épicos, economizando horas de planejamento.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
                         <i class="fas fa-layer-group"></i>
-                        StoryFlow
-                    </h1>
-                    <span class="app-subtitle">Superior ao Jira</span>
-                </div>
-                <div class="header-right">
-                    <button class="btn btn--secondary theme-toggle" id="themeToggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="btn btn--success" id="createEpicBtn">
-                        <i class="fas fa-layer-group"></i>
-                        Novo Épico
-                    </button>
-                    <button class="btn btn--primary" id="createStoryBtn">
-                        <i class="fas fa-plus"></i>
-                        Nova Story
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Layout -->
-        <div class="main-layout">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <nav class="sidebar-nav">
-                    <div class="nav-section">
-                        <h3 class="nav-title">Dashboard</h3>
-                        <ul class="nav-list">
-                            <li><a href="#" class="nav-link active" data-view="dashboard">
-                                <i class="fas fa-chart-line"></i>
-                                Visão Geral
-                            </a></li>
-                            <li><a href="#" class="nav-link" data-view="analytics">
-                                <i class="fas fa-chart-bar"></i>
-                                Analytics
-                            </a></li>
-                            <li><a href="#" class="nav-link" data-view="story-map">
-                                <i class="fas fa-sitemap"></i>
-                                Story Map
-                            </a></li>
-                            <li><a href="#" class="nav-link" data-view="kanban">
-                                <i class="fas fa-columns"></i>
-                                Kanban
-                            </a></li>
-                        </ul>
                     </div>
+                    <h3 class="feature-title">Épicos Inteligentes</h3>
+                    <p class="feature-description">
+                        Sistema completo de épicos com relacionamento hierárquico, progresso em tempo real 
+                        e métricas avançadas para acompanhar a evolução dos seus projetos.
+                    </p>
+                </div>
 
-                    <div class="nav-section">
-                        <h3 class="nav-title">Projetos</h3>
-                        <ul class="nav-list" id="projectsList">
-                            <!-- Projetos serão carregados dinamicamente -->
-                        </ul>
-                        <button class="btn btn--ghost btn--small" id="addProjectBtn">
-                            <i class="fas fa-plus"></i>
-                            Novo Projeto
-                        </button>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sitemap"></i>
                     </div>
-                </nav>
-            </aside>
+                    <h3 class="feature-title">Story Map Visual</h3>
+                    <p class="feature-description">
+                        Visualização hierárquica intuitiva que organiza épicos e stories em um mapa 
+                        interativo, facilitando o entendimento da arquitetura do projeto.
+                    </p>
+                </div>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <!-- Dashboard View -->
-                <div class="view active" id="dashboardView">
-                    <div class="view-header">
-                        <h2>Dashboard</h2>
-                        <p>Visão geral dos seus projetos e user stories</p>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="totalStories">0</h3>
-                                <p>Total de Stories</p>
-                            </div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="completedStories">0</h3>
-                                <p>Stories Concluídas</p>
-                            </div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="inProgressStories">0</h3>
-                                <p>Em Andamento</p>
-                            </div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-layer-group"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="totalEpics">0</h3>
-                                <p>Total de Épicos</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-sections">
-                        <section class="epics-overview">
-                            <div class="section-header">
-                                <h3>Épicos em Andamento</h3>
-                                <button class="btn btn--ghost btn--small" id="viewAllEpics">
-                                    <i class="fas fa-eye"></i>
-                                    Ver Todos
-                                </button>
-                            </div>
-                            <div class="epics-grid" id="epicsGrid">
-                                <!-- Épicos serão carregados dinamicamente -->
-                            </div>
-                        </section>
-
-                        <section class="recent-stories">
-                            <h3>Stories Recentes</h3>
-                            <div class="stories-list" id="recentStoriesList">
-                                <!-- Stories serão carregadas dinamicamente -->
-                            </div>
-                        </section>
-
-                        <section class="quick-actions">
-                            <h3>Ações Rápidas</h3>
-                            <div class="actions-grid">
-                                <button class="action-card" id="quickCreateEpic">
-                                    <i class="fas fa-layer-group"></i>
-                                    <span>Novo Épico</span>
-                                </button>
-                                <button class="action-card" id="quickCreateStory">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Nova User Story</span>
-                                </button>
-                                <button class="action-card" id="importStories">
-                                    <i class="fas fa-upload"></i>
-                                    <span>Importar Stories</span>
-                                </button>
-                                <button class="action-card" id="exportStories">
-                                    <i class="fas fa-download"></i>
-                                    <span>Exportar Projeto</span>
-                                </button>
-                                <button class="action-card" id="aiSuggestions">
-                                    <i class="fas fa-robot"></i>
-                                    <span>Sugestões AI</span>
-                                </button>
-                            </div>
-                        </section>
-                    </div>
+                    <h3 class="feature-title">Analytics Avançado</h3>
+                    <p class="feature-description">
+                        Dashboard com métricas em tempo real, velocity charts, burndown e insights 
+                        acionáveis para otimizar a performance da sua equipe.
+                    </p>
                 </div>
 
-                <!-- Story Map View -->
-                <div class="view" id="storyMapView">
-                    <div class="view-header">
-                        <h2>Story Map</h2>
-                        <p>Visualização hierárquica das suas user stories</p>
-                    </div>
-                    <div class="story-map-container">
-                        <div class="story-map" id="storyMapGrid">
-                            <!-- Story map será construído dinamicamente -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kanban View -->
-                <div class="view" id="kanbanView">
-                    <div class="view-header">
-                        <h2>Kanban Board</h2>
-                        <p>Gerencie o fluxo das suas user stories</p>
-                    </div>
-                    <div class="kanban-board">
-                        <div class="kanban-column" data-status="Backlog">
-                            <h3>Backlog</h3>
-                            <div class="kanban-stories" id="backlogColumn"></div>
-                        </div>
-                        <div class="kanban-column" data-status="In Progress">
-                            <h3>Em Andamento</h3>
-                            <div class="kanban-stories" id="inProgressColumn"></div>
-                        </div>
-                        <div class="kanban-column" data-status="Review">
-                            <h3>Revisão</h3>
-                            <div class="kanban-stories" id="reviewColumn"></div>
-                        </div>
-                        <div class="kanban-column" data-status="Done">
-                            <h3>Concluído</h3>
-                            <div class="kanban-stories" id="doneColumn"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Analytics View -->
-                <div class="view" id="analyticsView">
-                    <div class="view-header">
-                        <h2>Analytics</h2>
-                        <p>Métricas e insights dos seus projetos</p>
-                    </div>
-                    <div class="analytics-grid">
-                        <div class="chart-container">
-                            <h3>Velocity Chart</h3>
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-line"></i>
-                                <p>Gráfico de velocidade será exibido aqui</p>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <h3>Burndown Chart</h3>
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-area"></i>
-                                <p>Gráfico burndown será exibido aqui</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-
-        <!-- AI Assistant Panel -->
-        <div class="ai-assistant" id="aiAssistant">
-            <div class="ai-header">
-                <h3><i class="fas fa-robot"></i> AI Assistant</h3>
-                <button class="btn btn--ghost btn--small" id="closeAi">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="ai-content">
-                <div class="ai-suggestions" id="aiSuggestionsList">
-                    <div class="ai-suggestion">
-                        <h4>Melhore sua User Story</h4>
-                        <p>Esta story pode ser mais específica. Considere adicionar critérios de aceitação mais detalhados.</p>
-                        <button class="btn btn--small btn--primary">Aplicar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal para Criação/Edição de Stories -->
-        <div class="modal" id="storyModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="modalTitle">Nova User Story</h2>
-                    <button class="btn btn--ghost" id="closeModal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="storyForm">
-                        <div class="form-group">
-                            <label for="storyProject">Projeto</label>
-                            <select id="storyProject" required>
-                                <option value="">Selecione um projeto</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="storyTitle">Título da Story</label>
-                            <input type="text" id="storyTitle" placeholder="Ex: Login com redes sociais" required>
-                        </div>
-
-                        <div class="story-template">
-                            <h3>Como <span class="highlight">persona</span>, eu quero <span class="highlight">ação</span> para que <span class="highlight">benefício</span></h3>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="storyPersona">Persona</label>
-                                <select id="storyPersona" required>
-                                    <option value="">Selecione uma persona</option>
-                                    <option value="Cliente">Cliente</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Gerente">Gerente</option>
-                                    <option value="Desenvolvedor">Desenvolvedor</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="storyPoints">Story Points</label>
-                                <select id="storyPoints">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="5">5</option>
-                                    <option value="8">8</option>
-                                    <option value="13">13</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="storyAction">Eu quero (ação)</label>
-                            <input type="text" id="storyAction" placeholder="Ex: fazer login usando minhas credenciais das redes sociais" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="storyBenefit">Para que (benefício)</label>
-                            <input type="text" id="storyBenefit" placeholder="Ex: não precise lembrar de mais uma senha" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="acceptanceCriteria">Critérios de Aceitação</label>
-                            <div class="criteria-container">
-                                <div class="criteria-item">
-                                    <input type="text" class="criteria-input" placeholder="Critério de aceitação 1">
-                                    <button type="button" class="btn btn--ghost btn--small remove-criteria">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn--ghost btn--small" id="addCriteria">
-                                <i class="fas fa-plus"></i>
-                                Adicionar Critério
-                            </button>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="storyPriority">Prioridade</label>
-                                <select id="storyPriority">
-                                    <option value="Low">Baixa</option>
-                                    <option value="Medium">Média</option>
-                                    <option value="High">Alta</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="storyStatus">Status</label>
-                                <select id="storyStatus">
-                                    <option value="Backlog">Backlog</option>
-                                    <option value="In Progress">Em Andamento</option>
-                                    <option value="Review">Revisão</option>
-                                    <option value="Done">Concluído</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="storyTags">Tags (separadas por vírgula)</label>
-                            <input type="text" id="storyTags" placeholder="Ex: authentication, social-login">
-                        </div>
-
-                        <div class="invest-validation" id="investValidation">
-                            <h4>Validação INVEST</h4>
-                            <div class="validation-items">
-                                <!-- Validação será preenchida pelo JavaScript -->
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn--secondary" id="cancelStory">Cancelar</button>
-                    <button type="submit" class="btn btn--primary" id="saveStory" form="storyForm">Salvar Story</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal para Criação/Edição de Épicos -->
-        <div class="modal" id="epicModal">
-            <div class="modal-content modal-content--large">
-                <div class="modal-header">
-                    <h2 id="epicModalTitle">Novo Épico</h2>
-                    <button class="btn btn--ghost" id="closeEpicModal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="epicForm">
-                        <div class="form-group">
-                            <label for="epicProject">Projeto</label>
-                            <select id="epicProject" required>
-                                <option value="">Selecione um projeto</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="epicTitle">Título do Épico</label>
-                            <input type="text" id="epicTitle" placeholder="Ex: Sistema de Autenticação Completo" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="epicDescription">Descrição</label>
-                            <textarea id="epicDescription" placeholder="Descreva o épico e seu contexto de negócio..." rows="4" required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="epicObjectives">Objetivos do Épico</label>
-                            <div class="objectives-container">
-                                <div class="objective-item">
-                                    <input type="text" class="objective-input" placeholder="Objetivo 1">
-                                    <button type="button" class="btn btn--ghost btn--small remove-objective">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn--ghost btn--small" id="addObjective">
-                                <i class="fas fa-plus"></i>
-                                Adicionar Objetivo
-                            </button>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="epicBusinessValue">Valor de Negócio</label>
-                            <input type="text" id="epicBusinessValue" placeholder="Ex: Aumentar conversão em 25%" required>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="epicPriority">Prioridade</label>
-                                <select id="epicPriority">
-                                    <option value="Low">Baixa</option>
-                                    <option value="Medium">Média</option>
-                                    <option value="High">Alta</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="epicStatus">Status</label>
-                                <select id="epicStatus">
-                                    <option value="Planning">Planejamento</option>
-                                    <option value="Backlog">Backlog</option>
-                                    <option value="In Progress">Em Andamento</option>
-                                    <option value="Done">Concluído</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="epicColor">Cor</label>
-                                <input type="color" id="epicColor" value="#3B82F6">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="epicDueDate">Data de Entrega (opcional)</label>
-                            <input type="date" id="epicDueDate">
-                        </div>
-
-                        <div class="ai-section">
-                            <div class="ai-header">
-                                <h3><i class="fas fa-robot"></i> IA para Geração de User Stories</h3>
-                                <button type="button" class="btn btn--primary" id="generateStoriesBtn">
-                                    <i class="fas fa-magic"></i>
-                                    Gerar Stories com IA
-                                </button>
-                            </div>
-                            <div class="ai-description">
-                                <p>Nossa IA irá analisar a descrição e objetivos do épico para gerar automaticamente user stories relevantes e bem estruturadas.</p>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn--secondary" id="cancelEpic">Cancelar</button>
-                    <button type="submit" class="btn btn--primary" id="saveEpic" form="epicForm">Salvar Épico</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de Export -->
-        <div class="modal" id="exportModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Exportar Stories</h2>
-                    <button class="btn btn--ghost" id="closeExportModal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="export-options">
-                        <h3>Selecione o formato:</h3>
-                        <div class="export-formats">
-                            <label class="export-option">
-                                <input type="radio" name="exportFormat" value="json" checked>
-                                <span class="option-content">
-                                    <i class="fas fa-code"></i>
-                                    <strong>JSON</strong>
-                                    <small>Formato estruturado para desenvolvimento</small>
-                                </span>
-                            </label>
-
-                            <label class="export-option">
-                                <input type="radio" name="exportFormat" value="csv">
-                                <span class="option-content">
-                                    <i class="fas fa-table"></i>
-                                    <strong>CSV</strong>
-                                    <small>Para planilhas e ferramentas</small>
-                                </span>
-                            </label>
-
-                            <label class="export-option">
-                                <input type="radio" name="exportFormat" value="jira">
-                                <span class="option-content">
-                                    <i class="fas fa-upload"></i>
-                                    <strong>Jira CSV</strong>
-                                    <small>Formato compatível com Jira</small>
-                                </span>
-                            </label>
-
-                            <label class="export-option">
-                                <input type="radio" name="exportFormat" value="markdown">
-                                <span class="option-content">
-                                    <i class="fas fa-file-alt"></i>
-                                    <strong>Markdown</strong>
-                                    <small>Para documentação</small>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn--secondary" id="cancelExport">Cancelar</button>
-                    <button type="button" class="btn btn--primary" id="confirmExport">
+                <div class="feature-card">
+                    <div class="feature-icon">
                         <i class="fas fa-download"></i>
-                        Exportar
-                    </button>
+                    </div>
+                    <h3 class="feature-title">Export Flexível</h3>
+                    <p class="feature-description">
+                        Exporte seus dados em múltiplos formatos (JSON, CSV, Markdown, Jira) 
+                        mantendo a estrutura hierárquica e todos os metadados.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">100% Responsivo</h3>
+                    <p class="feature-description">
+                        Interface otimizada para todos os dispositivos, com experiência nativa 
+                        em mobile, tablet e desktop. Acesse de qualquer lugar, a qualquer hora.
+                    </p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Loading Overlay -->
-        <div class="loading-overlay" id="loadingOverlay">
-            <div class="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Carregando...</p>
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Gratuito</p>
+            </div>
+            <div class="stat-item">
+                <h3>⚡</h3>
+                <p>Performance Superior</p>
+            </div>
+            <div class="stat-item">
+                <h3>🤖</h3>
+                <p>IA Integrada</p>
+            </div>
+            <div class="stat-item">
+                <h3>🚀</h3>
+                <p>Deploy Instantâneo</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script src="app.js"></script>
+    <!-- Footer -->
+    <footer class="footer" id="about">
+        <div class="footer-content">
+            <h3 style="margin-bottom: 1rem;">
+                <i class="fas fa-rocket"></i> Project X
+            </h3>
+            <p style="margin-bottom: 1rem; opacity: 0.8;">
+                Revolucionando a gestão de projetos com tecnologia de ponta e inteligência artificial.
+            </p>
+            <p style="opacity: 0.6;">
+                &copy; 2025 Project X. Desenvolvido com 💙 para transformar a forma como você trabalha.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animação no scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar cards de features
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Header background no scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.backdropFilter = 'blur(20px)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            }
+        });
+
+        // Parallax effect sutil
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Contador animado para stats
+        const animateCounters = () => {
+            const counters = document.querySelectorAll('.stat-item h3');
+            counters.forEach(counter => {
+                const text = counter.innerText;
+                if (text.includes('%')) {
+                    const target = parseInt(text);
+                    let current = 0;
+                    const increment = target / 100;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.innerText = target + '%';
+                            clearInterval(timer);
+                        } else {
+                            counter.innerText = Math.ceil(current) + '%';
+                        }
+                    }, 20);
+                }
+            });
+        };
+
+        // Observar seção de stats
+        const statsSection = document.querySelector('.stats');
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    </script>
 </body>
 </html>

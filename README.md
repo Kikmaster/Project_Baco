@@ -1,6 +1,15 @@
-# 🚀 StoryFlow - Ferramenta Superior ao Jira para User Stories
+# 🎯 Project X - Gestão Inteligente de Projetos
 
-Uma aplicação web moderna e intuitiva para criação e gestão de User Stories que supera o Jira da Atlassian em múltiplas funcionalidades.
+**Project X** é uma plataforma revolucionária de gestão de projetos que combina épicos inteligentes, user stories geradas por IA e visualizações hierárquicas avançadas. Inclui o **StoryFlow** - uma ferramenta superior ao Jira para criação e gestão de User Stories.
+
+## 🏠 **Landing Page - Project X**
+
+A nova página principal apresenta:
+- **Design moderno** com gradientes e animações
+- **Apresentação das funcionalidades** de forma visual
+- **Acesso direto** ao StoryFlow com botão CTA
+- **Responsive design** para todos os dispositivos
+- **Efeitos visuais** como parallax e floating elements
 
 ## ✨ Funcionalidades Principais
 
@@ -156,11 +165,14 @@ appData.projects.push({
 ## 🔧 Estrutura do Projeto
 
 ```
-storyflow-app/
-├── index.html          # Interface principal
+Project_Baco/
+├── index.html         # Landing page do Project X
+├── storyflow.html     # Interface principal do StoryFlow
 ├── style.css          # Estilos e temas
-├── app.js            # Lógica da aplicação
-└── README.md         # Esta documentação
+├── app.js             # Lógica da aplicação
+├── .nojekyll          # Arquivo para GitHub Pages
+├── .github/workflows/ # GitHub Actions
+└── README.md          # Esta documentação
 ```
 
 ## 🚀 Roadmap
